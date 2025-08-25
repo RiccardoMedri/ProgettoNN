@@ -66,8 +66,7 @@ def main():
             conf=args.conf,
             iou=args.iou,
             save_txt=args.save_txt,
-            save_conf=args.save_conf,
-            save=True,
+            save_conf=args.save_conf
         )
         print(f"[Predict] save_dir: {out.get('save_dir')}")
         if out.get("saved"):

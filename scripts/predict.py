@@ -49,6 +49,8 @@ def predict_ultra(
     # whether to save annotated video/frames
     save_annotated = bool(predict_cfg.get("save_annotated", True))
 
+    show_result = bool(predict_cfg.get("show_result", False))
+
     device  = 0 if torch.cuda.is_available() else "cpu"
     project = _pick_project_dir(cfg, "outputs/figures")
     run_name = log_cfg.get("pred_name", "preds")
@@ -66,6 +68,7 @@ def predict_ultra(
         save_conf=save_conf,
         project=project,
         name=run_name,
+        show=show_result,
         stream=True,       # get a generator of per-frame results
         verbose=True,
     )

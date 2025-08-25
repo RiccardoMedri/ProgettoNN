@@ -5,20 +5,25 @@
     "std": [0.2708911597728729, 0.24805864691734314, 0.2504465878009796],
     "val_split": 0.1,
     "test_split": 0.1,
-    "image_size": [640, 640]
+    "image_size": [960, 960]
   },
   "augment": {
     "hflip_prob": 0.5,
     "vflip_prob": 0.0,
-    "rotation": 20,
-    "translate": 0.05,
-    "scale_range": [0.9, 1.0],
-    "shear": 0.0,
-    "color_jitter": true,
-    "brightness": 0.2,
-    "contrast": 0.2,
-    "saturation": 0.2,
-    "hue": 0.02,
+    "rotation": 10,
+    "translate": 0.10,
+    "scale_range": [0.9, 1.1],
+    "shear": 2.0,
+    "augment2": {
+      "color_jitter": {
+        "brightness": 0.2,
+        "contrast": 0.2,
+        "saturation": 0.2
+      },
+      "crop_prob": 0.35,
+      "crop_scale": [0.6, 1.0]
+    },
+    "base_copies": 2,
     "max_extra_per_image": 2,
     "balance_mode": "max"
   },

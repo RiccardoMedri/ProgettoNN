@@ -15,27 +15,6 @@ This script:
 - Canonicalizes polygon point order and deduplicates rows
 - Drops degenerate polygons (area ~ 0) and out-of-range rows
 
-It uses augmentation hints from config.json:
-{
-  "dataset": {
-    "image_size": [640, 640]
-  },
-  "augment": {
-    "hflip_prob": 0.5,
-    "vflip_prob": 0.0,
-    "rotation": 20,
-    "translate": 0.1,
-    "scale_range": [0.9, 1.1],
-    "shear": 0.0
-  },
-  "paths": {
-    "raw_images": "files/raw/images",
-    "raw_labels": "files/raw/labels",
-    "proc_images": "files/processed/images",
-    "proc_labels": "files/processed/labels"
-  }
-}
-
 Defaults are safe if keys are missing.
 """
 

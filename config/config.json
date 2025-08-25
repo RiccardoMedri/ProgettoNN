@@ -57,7 +57,8 @@
     "save_annotated": false,
     "conf_thres": 0.25,
     "iou_thres": 0.7,
-    "show_result": false
+    "show_result": false,
+    "stream": false
   },
   "model": {
     "name": "outputs/logs/exp4/weights/best.pt",

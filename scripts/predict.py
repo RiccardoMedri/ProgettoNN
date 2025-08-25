@@ -51,6 +51,8 @@ def predict_ultra(
 
     show_result = bool(predict_cfg.get("show_result", False))
 
+    stream = bool(predict_cfg.get("stream", False))
+
     device  = 0 if torch.cuda.is_available() else "cpu"
     project = _pick_project_dir(cfg, "outputs/figures")
     run_name = log_cfg.get("pred_name", "preds")
@@ -69,19 +71,19 @@ def predict_ultra(
         project=project,
         name=run_name,
         show=show_result,
-        stream=True,       # get a generator of per-frame results
+        stream=stream,       # get a generator of per-frame results
         verbose=True,
     )
 
     # display results in one OpenCV window while processing
-    for result in results:
-        annotated_frame = result.plot()  # overlay boxes/labels
-        cv2.imshow("Live detection", annotated_frame)
-        # press 'q' to stop early
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-
-    cv2.destroyAllWindows()
+    if stream and show_result:
+        for result in results:
+            annotated_frame = result.plot()  # overlay boxes/labels
+            cv2.imshow("Live detection", annotated_frame)
+            # press 'q' to stop early
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+        cv2.destroyAllWindows()
 
     # infer where Ultralytics saved the annotated video/images
     save_dir = None

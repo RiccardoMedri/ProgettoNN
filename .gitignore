@@ -1,3 +1,6 @@
 files/
 __pycache__/
 *.pyc
+outputs/logs/preds2/
+*.avi
+*.mp4

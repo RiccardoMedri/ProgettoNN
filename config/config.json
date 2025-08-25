@@ -53,8 +53,8 @@
     }
   },
   "predict": {
-    "image_size": [640, 640],
-    "save_annotated": false,
+    "image_size": [960, 960],
+    "save_annotated": true,
     "conf_thres": 0.25,
     "iou_thres": 0.7,
     "show_result": false,

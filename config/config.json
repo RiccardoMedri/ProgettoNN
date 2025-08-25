@@ -55,7 +55,8 @@
   "predict": {
     "image_size": [640, 640],
     "save_annotated": false,
-    "conf_thres": 0.25
+    "conf_thres": 0.25,
+    "iou_thres": 0.7
   },
   "model": {
     "name": "outputs/logs/exp4/weights/best.pt",

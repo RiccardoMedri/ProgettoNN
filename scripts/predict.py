@@ -1,20 +1,11 @@
-# scripts/predict.py
+import cv2
 import json
 from pathlib import Path
 from typing import Optional, Union, Dict, Any, List
-
 import torch
 from ultralytics import YOLO
 
-
 def _pick_project_dir(cfg: dict, fallback: str) -> str:
-    """
-    Sceglie la cartella per i log/output:
-    - prima logging.project_dir
-    - poi paths.figures_dir (per le predizioni ha senso)
-    - poi paths.log_dir / logs_dir
-    - infine fallback
-    """
     log_cfg = cfg.get("logging", {})
     paths = cfg.get("paths", {})
     return (
@@ -25,7 +16,6 @@ def _pick_project_dir(cfg: dict, fallback: str) -> str:
         or fallback
     )
 
-
 def predict_ultra(
     config_path: str,
     source: Union[str, Path],
@@ -34,83 +24,73 @@ def predict_ultra(
     iou: Optional[float] = None,
     save_txt: bool = False,
     save_conf: bool = False,
-    save: bool = True,
 ) -> Dict[str, Any]:
-    """
-    Esegue la predizione (detect/OBB) con Ultralytics YOLO e salva gli overlay.
-
-    Ritorna un dict con:
-      - save_dir: cartella dove sono stati salvati i risultati
-      - num: numero di elementi processati
-      - inputs: lista dei path di input
-      - saved: lista dei path attesi dei file salvati (best-effort)
-    """
+    """Run YOLO prediction on images or videos, display live results and save annotated video."""
     with open(config_path, "r") as f:
         cfg = json.load(f)
 
-    model_cfg = cfg.get("model", {})
-    paths = cfg.get("paths", {})
-    log_cfg = cfg.get("logging", {})
+    model_cfg   = cfg.get("model", {})
+    predict_cfg = cfg.get("predict", {})
+    log_cfg     = cfg.get("logging", {})
 
+    # choose weights – same logic as before
     model_source = (
         weights_path
         or model_cfg.get("weights_path")
         or model_cfg.get("name", "yolo11n-obb.pt")
     )
 
-    imgsz = int(model_cfg.get("input_size", 640))
-    device = 0 if torch.cuda.is_available() else "cpu"
+    # override image size and thresholds from predict dict when present
+    # fall back to model section or sensible defaults
+    imgsz = predict_cfg.get("image_size", [model_cfg.get("input_size", 640)])[0]
+    conf  = float(conf if conf is not None else predict_cfg.get("conf_thres", model_cfg.get("conf", 0.25)))
+    iou   = float(iou if iou is not None else predict_cfg.get("iou_thres", 0.7))
 
-    # soglie
-    conf = float(conf if conf is not None else model_cfg.get("conf", 0.25))
-    iou = float(iou if iou is not None else model_cfg.get("iou", 0.7))
+    # whether to save annotated video/frames
+    save_annotated = bool(predict_cfg.get("save_annotated", True))
 
-    # output
+    device  = 0 if torch.cuda.is_available() else "cpu"
     project = _pick_project_dir(cfg, "outputs/figures")
     run_name = log_cfg.get("pred_name", "preds")
 
-    # Istanzia modello e lancia la predizione
     yolo = YOLO(model_source)
+    # run prediction with streaming so we can display frames
     results = yolo.predict(
         source=str(source),
         imgsz=imgsz,
         device=device,
         conf=conf,
         iou=iou,
-        save=save,
+        save=save_annotated,
         save_txt=save_txt,
         save_conf=save_conf,
         project=project,
         name=run_name,
-        stream=False,
+        stream=True,       # get a generator of per-frame results
         verbose=True,
     )
 
-    # Recupera save_dir in modo robusto
-    save_dir: Optional[Path] = None
+    # display results in one OpenCV window while processing
+    for result in results:
+        annotated_frame = result.plot()  # overlay boxes/labels
+        cv2.imshow("Live detection", annotated_frame)
+        # press 'q' to stop early
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+    cv2.destroyAllWindows()
+
+    # infer where Ultralytics saved the annotated video/images
+    save_dir = None
     try:
-        save_dir = Path(yolo.predictor.save_dir)  # versioni recenti
+        save_dir = Path(yolo.predictor.save_dir)
     except Exception:
-        try:
-            if results:
-                save_dir = Path(getattr(results[0], "save_dir", project))  # fallback
-            else:
-                save_dir = Path(project) / run_name
-        except Exception:
-            save_dir = Path(project) / run_name
-
-    inputs: List[str] = []
-    saved: List[str] = []
-
-    for r in (results or []):
-        in_path = str(getattr(r, "path", ""))
-        inputs.append(in_path)
-        if save and save_dir is not None and in_path:
-            saved.append(str(save_dir / Path(in_path).name))
+        # fallback: project/run_name
+        save_dir = Path(project) / run_name
 
     return {
         "save_dir": str(save_dir) if save_dir is not None else None,
-        "num": len(results or []),
-        "inputs": inputs,
-        "saved": saved,
+        "num": len(results),
+        "inputs": [str(source)],
+        "saved": [str(save_dir)] if save_annotated and save_dir is not None else [],
     }

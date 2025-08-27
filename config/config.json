@@ -28,16 +28,16 @@
     "balance_mode": "max"
   },
   "training": {
-    "batch_size": 8,
+    "batch_size": 4,
     "num_workers": 4,
     "epochs": 120,
-    "patience": 30,
     "ultra": {
+      "resume": false,
       "optimizer": "AdamW",
-      "lr0": 0.002,
+      "lr0": 0.001,
       "momentum": 0.9,
       "weight_decay": 0.0005,
-      "lrf": 0.01,
+      "lrf": 0.1,
       "cos_lr": true,
 
       "warmup_epochs": 8.0,
@@ -66,10 +66,10 @@
     "stream": false
   },
   "model": {
-    "name": "outputs/logs/exp4/weights/best.pt",
+    "name": "outputs/logs/exp6/weights/last.pt",
     "pretrained": true,
     "weights_path": null,
-    "input_size": 640,
+    "input_size": 960,
     "num_classes": 3
   },
   "paths": {

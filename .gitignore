@@ -8,3 +8,4 @@ outputs/logs/preds/
 .vscode
 ._*
 .DS_Store*s
+epoch*

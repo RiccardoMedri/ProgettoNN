@@ -10,3 +10,4 @@ outputs/logs/preds/
 .DS_Store*s
 epoch*
 events.out.*
+yolo11*

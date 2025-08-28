@@ -1,0 +1,88 @@
+{
+  "dataset": {
+    "annotation_format": "yolo",
+    "mean": [0.5308062434, 0.4837833345, 0.3581444919],
+    "std": [0.2708911598, 0.2480586469, 0.2504465878],
+    "val_split": 0.1,
+    "test_split": 0.1,
+    "image_size": [640, 640]
+  },
+  "augment": {
+    "hflip_prob": 0.5,
+    "vflip_prob": 0.0,
+    "rotation": 10,
+    "translate": 0.10,
+    "scale_range": [0.9, 1.1],
+    "shear": 2.0,
+    "augment2": {
+      "color_jitter": {
+        "brightness": 0.2,
+        "contrast": 0.2,
+        "saturation": 0.2
+      },
+      "crop_prob": 0.35,
+      "crop_scale": [0.6, 1.0]
+    },
+    "base_copies": 1,
+    "max_extra_per_image": 1,
+    "balance_mode": "max"
+  },
+  "training": {
+    "batch_size": 4,
+    "num_workers": 4,
+    "epochs": 100,
+    "ultra": {
+      "optimizer": "AdamW",
+      "lr0": 0.002,
+      "momentum": 0.9,
+      "weight_decay": 0.0005,
+      "lrf": 0.1,
+      "cos_lr": true,
+      "warmup_epochs": 3,
+      "degrees": 20,
+      "flipud": 0.2,
+      "mosaic": 0.2,
+      "mixup": 0.1,
+      "close_mosaic": 5,
+      "auto_augment": null,
+      "cache": false,
+      "save_period": 5,
+      "patience": 20,
+      "seed": 42,
+      "deterministic": false,
+      "device": "mps"
+    }
+  },
+  "predict": {
+    "image_size": [640, 640],
+    "save_annotated": true,
+    "conf_thres": 0.25,
+    "iou_thres": 0.6,
+    "show_result": false,
+    "stream": false
+  },
+  "model": {
+    "name": "yolo11s-obb.pt",
+    "pretrained": true,
+    "weights_path": null,
+    "input_size": 640,
+    "num_classes": 3
+  },
+  "paths": {
+    "output_dir": "outputs",
+    "weights_dir": "outputs/weights",
+    "raw_images": "files/raw/images",
+    "raw_labels": "files/raw/labels",
+    "proc_images": "files/processed/images",
+    "proc_labels": "files/processed/labels",
+    "dataset_yaml": "config/dataset.yaml",
+    "figures_dir": "outputs/figures"
+  },
+  "logging": {
+    "project_dir": "outputs/logs",
+    "run_name": "exp",
+    "eval_name": "eval",
+    "pred_name": "preds"
+  },
+  "seed": 42
+}

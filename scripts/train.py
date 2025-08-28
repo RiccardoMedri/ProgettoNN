@@ -59,7 +59,7 @@ def train_ultra(config_path: str) -> Optional[str]:
     pretrained = bool(model_cfg.get("pretrained", True))
 
     # Dispositivo
-    device = 0 if torch.cuda.is_available() else "cpu"
+    device = train_cfg.get("device", "cpu")
 
     # Output/logging
     project = _pick_project_dir(cfg)

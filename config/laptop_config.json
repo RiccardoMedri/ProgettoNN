@@ -5,7 +5,7 @@
     "std": [0.2708911597728729, 0.24805864691734314, 0.2504465878009796],
     "val_split": 0.1,
     "test_split": 0.1,
-    "image_size": [960, 960]
+    "image_size": [640, 640]
   },
   "augment": {
     "hflip_prob": 0.5,
@@ -32,33 +32,30 @@
     "num_workers": 4,
     "epochs": 100,
     "ultra": {
-      "resume": false,
-      "optimizer": "SGD",
+      "optimizer": "AdamW",
       "lr0": 0.001,
       "momentum": 0.9,
       "weight_decay": 0.0005,
       "lrf": 0.1,
       "cos_lr": true,
-      "multi_scale": true,
       "warmup_epochs": 3,
-      "degrees": 25,
+      "degrees": 20,
       "flipud": 0.2,
       "mosaic": 0.2,
-      "mixup": 0.08,
+      "mixup": 0.1,
       "close_mosaic": 5,
       "auto_augment": null,
-      "cache": true,
+      "cache": false,
       "save_period": 5,
-      "nms": true,
-      "patience": 20,
+      "patience": 15,
       "seed": 42,
       "deterministic": false,
-      "iou": 0.6,
-      "erasing": 0.2
+      "device": "cpu",
+      "iou": 0.6
     }
   },
   "predict": {
-    "image_size": [960, 960],
+    "image_size": [640, 640],
     "save_annotated": true,
     "conf_thres": 0.25,
     "iou_thres": 0.6,
@@ -66,7 +63,7 @@
     "stream": false
   },
   "model": {
-    "name": "yolo11s-obb.pt",
+    "name": "yolo11n-obb.pt",
     "pretrained": true,
     "weights_path": null,
     "input_size": 640,

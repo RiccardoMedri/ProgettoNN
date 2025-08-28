@@ -23,12 +23,12 @@
       "crop_prob": 0.35,
       "crop_scale": [0.6, 1.0]
     },
-    "base_copies": 1,
-    "max_extra_per_image": 1,
+    "base_copies": 2,
+    "max_extra_per_image": 2,
     "balance_mode": "max"
   },
   "training": {
-    "batch_size": 4,
+    "batch_size": 8,
     "num_workers": 4,
     "epochs": 100,
     "ultra": {

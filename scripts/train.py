@@ -136,7 +136,6 @@ def train_ultra(config_path: str) -> Optional[str]:
         epochs=epochs,
         batch=batch,
         workers=workers,
-        device=device,
         project=project,
         name=run_name,
         pretrained=pretrained,

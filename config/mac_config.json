@@ -62,7 +62,7 @@
     "stream": false
   },
   "model": {
-    "name": "yolo11s-obb.pt",
+    "name": "yolo11n-obb.pt",
     "pretrained": true,
     "weights_path": null,
     "input_size": 640,

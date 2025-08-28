@@ -9,3 +9,4 @@ outputs/logs/preds/
 ._*
 .DS_Store*s
 epoch*
+events.out.*

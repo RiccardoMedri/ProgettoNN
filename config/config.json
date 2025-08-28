@@ -28,48 +28,48 @@
     "balance_mode": "max"
   },
   "training": {
-    "batch_size": 4,
+    "batch_size": 8,
     "num_workers": 4,
-    "epochs": 120,
+    "epochs": 100,
     "ultra": {
       "resume": false,
-      "optimizer": "AdamW",
+      "optimizer": "SGD",
       "lr0": 0.001,
       "momentum": 0.9,
       "weight_decay": 0.0005,
       "lrf": 0.1,
       "cos_lr": true,
-
-      "warmup_epochs": 8.0,
-      "degrees": 10,
+      "multi_scale": true,
+      "warmup_epochs": 3,
+      "degrees": 25,
       "flipud": 0.2,
-      "mosaic": 0.0,
-      "mixup": 0.0,
+      "mosaic": 0.2,
+      "mixup": 0.08,
       "close_mosaic": 5,
       "auto_augment": null,
-
       "cache": true,
       "save_period": 5,
-      "label_smoothing": 0.005,
-
+      "nms": true,
       "patience": 20,
       "seed": 42,
-      "deterministic": false
+      "deterministic": false,
+      "iou": 0.6,
+      "erasing": 0.2
     }
   },
   "predict": {
     "image_size": [960, 960],
     "save_annotated": true,
     "conf_thres": 0.25,
-    "iou_thres": 0.7,
+    "iou_thres": 0.6,
     "show_result": false,
     "stream": false
   },
   "model": {
-    "name": "outputs/logs/exp6/weights/last.pt",
+    "name": "yolo11s-obb.pt",
     "pretrained": true,
     "weights_path": null,
-    "input_size": 960,
+    "input_size": 640,
     "num_classes": 3
   },
   "paths": {

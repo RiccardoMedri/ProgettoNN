@@ -74,7 +74,7 @@
     "raw_labels": "files/raw/labels",
     "proc_images": "files/processed/images",
     "proc_labels": "files/processed/labels",
-    "dataset_yaml": "config/dataset.yaml",
+    "dataset_yaml": "config/win_dataset.yaml",
     "figures_dir": "outputs/figures"
   },
   "logging": {

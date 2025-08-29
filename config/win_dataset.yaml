@@ -1,0 +1,4 @@
+path: C:/Users/Riccardo/Documents/ProgettoNN/files/processed
+train: images/train
+val: images/val     # usually no augmentation/oversampling on val
+names: [class0, class1, class2]

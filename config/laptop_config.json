@@ -3,14 +3,12 @@
     "annotation_format": "yolo",
     "mean": [0.5308062434196472, 0.4837833344936371, 0.35814449191093445],
     "std": [0.2708911597728729, 0.24805864691734314, 0.2504465878009796],
-    "val_split": 0.1,
-    "test_split": 0.1,
-    "image_size": [640, 640]
+    "image_size": [1024, 1024]
   },
   "augment": {
     "hflip_prob": 0.5,
     "vflip_prob": 0.0,
-    "rotation": 10,
+    "rotation": 20,
     "translate": 0.10,
     "scale_range": [0.9, 1.1],
     "shear": 2.0,
@@ -23,22 +21,22 @@
       "crop_prob": 0.35,
       "crop_scale": [0.6, 1.0]
     },
-    "base_copies": 2,
-    "max_extra_per_image": 2,
+    "base_copies": 4,
+    "max_extra_per_image": 4,
     "balance_mode": "max"
   },
   "training": {
-    "batch_size": 8,
+    "batch_size": 12,
     "num_workers": 4,
-    "epochs": 100,
+    "epochs": 150,
     "ultra": {
       "optimizer": "AdamW",
-      "lr0": 0.001,
+      "lr0": 0.002,
       "momentum": 0.9,
       "weight_decay": 0.0005,
       "lrf": 0.1,
       "cos_lr": true,
-      "warmup_epochs": 3,
+      "warmup_epochs": 5,
       "degrees": 20,
       "flipud": 0.2,
       "mosaic": 0.2,
@@ -46,16 +44,16 @@
       "close_mosaic": 5,
       "auto_augment": null,
       "cache": false,
-      "save_period": 5,
-      "patience": 15,
+      "save_period": 10,
+      "patience": 10,
       "seed": 42,
       "deterministic": false,
-      "device": "cpu",
+      "device": "cuda",
       "iou": 0.6
     }
   },
   "predict": {
-    "image_size": [640, 640],
+    "image_size": [1024, 1024],
     "save_annotated": true,
     "conf_thres": 0.25,
     "iou_thres": 0.6,
@@ -63,10 +61,10 @@
     "stream": false
   },
   "model": {
-    "name": "yolo11n-obb.pt",
+    "name": "yolo11m-obb.pt",
     "pretrained": true,
     "weights_path": null,
-    "input_size": 640,
+    "input_size": 1024,
     "num_classes": 3
   },
   "paths": {

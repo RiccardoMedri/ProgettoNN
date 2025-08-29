@@ -58,9 +58,6 @@ def train_ultra(config_path: str) -> Optional[str]:
         seed = int(seed)
     pretrained = bool(model_cfg.get("pretrained", True))
 
-    # Dispositivo
-    device = train_cfg.get("device", "cpu")
-
     # Output/logging
     project = _pick_project_dir(cfg)
     run_name = cfg.get("logging", {}).get("run_name", "exp")

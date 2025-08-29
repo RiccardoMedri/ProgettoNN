@@ -3,14 +3,12 @@
     "annotation_format": "yolo",
     "mean": [0.5308062434, 0.4837833345, 0.3581444919],
     "std": [0.2708911598, 0.2480586469, 0.2504465878],
-    "val_split": 0.1,
-    "test_split": 0.1,
     "image_size": [640, 640]
   },
   "augment": {
     "hflip_prob": 0.5,
     "vflip_prob": 0.0,
-    "rotation": 10,
+    "rotation": 20,
     "translate": 0.10,
     "scale_range": [0.9, 1.1],
     "shear": 2.0,
@@ -23,8 +21,8 @@
       "crop_prob": 0.35,
       "crop_scale": [0.6, 1.0]
     },
-    "base_copies": 2,
-    "max_extra_per_image": 2,
+    "base_copies": 4,
+    "max_extra_per_image": 4,
     "balance_mode": "max"
   },
   "training": {
@@ -45,9 +43,9 @@
       "mixup": 0.1,
       "close_mosaic": 5,
       "auto_augment": null,
-      "cache": false,
+      "cache": true,
       "save_period": 5,
-      "patience": 20,
+      "patience": 15,
       "seed": 42,
       "deterministic": false,
       "device": "mps"
@@ -62,7 +60,7 @@
     "stream": false
   },
   "model": {
-    "name": "yolo11n-obb.pt",
+    "name": "yolo11s-obb.pt",
     "pretrained": true,
     "weights_path": null,
     "input_size": 640,

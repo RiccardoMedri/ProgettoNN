@@ -44,7 +44,7 @@
       "close_mosaic": 5,
       "auto_augment": null,
       "cache": true,
-      "save_period": 5,
+      "save_period": 10,
       "patience": 15,
       "seed": 42,
       "deterministic": false,

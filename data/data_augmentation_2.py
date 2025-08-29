@@ -176,9 +176,24 @@ def build_affine_matrix(W: int, H: int, hflip: bool, vflip: bool, angle: float, 
     return M
 
 
+def _invert_affine(M: List[List[float]]) -> List[List[float]]:
+    """Invert a 3x3 affine matrix where the last row is [0,0,1]."""
+    det = M[0][0] * M[1][1] - M[0][1] * M[1][0]
+    if abs(det) < 1e-8:
+        return [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+    inv_a = M[1][1] / det
+    inv_b = -M[0][1] / det
+    inv_d = -M[1][0] / det
+    inv_e = M[0][0] / det
+    inv_c = -(inv_a * M[0][2] + inv_b * M[1][2])
+    inv_f = -(inv_d * M[0][2] + inv_e * M[1][2])
+    return [[inv_a, inv_b, inv_c], [inv_d, inv_e, inv_f], [0, 0, 1]]
+
+
 def pil_affine(img: Image.Image, M: List[List[float]], fill=(114, 114, 114)) -> Image.Image:
-    a, b, c = M[0]
-    d, e, f = M[1]
+    Minv = _invert_affine(M)
+    a, b, c = Minv[0]
+    d, e, f = Minv[1]
     return img.transform(img.size, Image.AFFINE, (a, b, c, d, e, f), resample=_BILINEAR, fillcolor=fill)
 
 

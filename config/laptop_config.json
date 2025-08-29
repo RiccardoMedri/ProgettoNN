@@ -81,7 +81,9 @@
     "project_dir": "outputs/logs",
     "run_name": "exp",
     "eval_name": "eval",
-    "pred_name": "preds"
+    "pred_name": "preds",
+    "train_dir": "outputs/train",
+    "tensorboard_dir": "outputs/tensorboard"
   },
   "seed": 42
 }

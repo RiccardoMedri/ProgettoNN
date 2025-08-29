@@ -11,3 +11,4 @@ outputs/logs/preds/
 epoch*
 events.out.*
 yolo11*
+train/

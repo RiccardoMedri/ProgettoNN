@@ -17,12 +17,23 @@ def _pick_project_dir(cfg: dict) -> str:
     log_cfg = cfg.get("logging", {})
     paths = cfg.get("paths", {})
     return (
-        log_cfg.get("project_dir")
+        log_cfg.get("train_dir")
+        or paths.get("train_dir")
+        or log_cfg.get("project_dir")
         or paths.get("log_dir")
         or paths.get("logs_dir")
-        or "outputs/logs"
+        or "outputs/train"
     )
 
+def _pick_tensorboard_dir(cfg: dict) -> str:
+    log_cfg = cfg.get("logging", {})
+    paths = cfg.get("paths", {})
+    return (
+        log_cfg.get("tensorboard_dir")
+        or paths.get("tensorboard_dir")
+        or paths.get("tb_dir")
+        or "outputs/tensorboard"
+    )
 
 def train_ultra(config_path: str) -> Optional[str]:
     """
@@ -76,6 +87,8 @@ def train_ultra(config_path: str) -> Optional[str]:
 
     # ---- TensorBoard writer & callback (immagini) ----
     tb_logdir = os.path.join(project, run_name, "tb")
+    tb_root = _pick_tensorboard_dir(cfg)
+    tb_logdir = os.path.join(tb_root, run_name)
     os.makedirs(tb_logdir, exist_ok=True)
     tb_writer = SummaryWriter(log_dir=tb_logdir)
 

@@ -31,10 +31,10 @@
     "epochs": 100,
     "ultra": {
       "optimizer": "AdamW",
-      "lr0": 0.002,
+      "lr0": 0.0005,
       "momentum": 0.9,
       "weight_decay": 0.0005,
-      "lrf": 0.1,
+      "lrf": 0.02,
       "cos_lr": true,
       "warmup_epochs": 3,
       "degrees": 20,
@@ -45,10 +45,11 @@
       "auto_augment": null,
       "cache": true,
       "save_period": 10,
-      "patience": 15,
+      "patience": 10,
       "seed": 42,
       "deterministic": false,
-      "device": "mps"
+      "device": "mps",
+      "erasing": 0.15
     }
   },
   "predict": {
@@ -62,7 +63,7 @@
   "model": {
     "name": "yolo11s-obb.pt",
     "pretrained": true,
-    "weights_path": null,
+    "weights_path": "outputs/logs/exp3/weights/best.pt",
     "input_size": 640,
     "num_classes": 3
   },
@@ -80,7 +81,9 @@
     "project_dir": "outputs/logs",
     "run_name": "exp",
     "eval_name": "eval",
-    "pred_name": "preds"
+    "pred_name": "preds",
+    "train_dir": "outputs/train",
+    "tensorboard_dir": "outputs/tensorboard"
   },
   "seed": 42
 }
